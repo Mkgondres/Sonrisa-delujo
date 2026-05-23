@@ -1861,14 +1861,6 @@ p {
 }
 /* Estilos del Carrusel Premium */
 .carrusel-transformacion {
-  width: 100%;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  margin: 20px 0;
-}
-
-.carrusel-transformacion {
     width: 100%;
     overflow-x: auto;
     scroll-behavior: smooth;
