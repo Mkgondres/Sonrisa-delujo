@@ -1875,10 +1875,11 @@ p {
 
 .carrusel-track {
   display: flex;
+   flex-wrap: nowrap
 }
 
 .carrusel-slide {
-  min-width: 100%; 
+   flex: 0 0 100%;
   scroll-snap-align: start;
   padding: 0 10px;
   box-sizing: border-box;
