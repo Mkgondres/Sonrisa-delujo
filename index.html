@@ -397,18 +397,20 @@
             </div>
           ​<div class="carrusel-transformacion">
             <div class="carrusel-track">
-<div class="carrusel-slide">
-<img src="1779559067903.png" alt="Clínica Lumina Dental">
+  <div class="carrusel-slide">
+    <img src="1779559067903.png" alt="Clínica Lumina Dental" class="clickable-img" onclick="openModal('1779559067903.png')">
+  </div>
+  <div class="carrusel-slide">
+    <img src="76ebfa406c88cc2a072c185032aaf519.jpg" alt="Brackets metálicos" class="clickable-img" onclick="openModal('76ebfa406c88cc2a072c185032aaf519.jpg')">
+  </div>
+  <div class="carrusel-slide">
+    <img src="51657967bbbca946ae203f5483a64556.jpg" alt="Brackets transparentes" class="clickable-img" onclick="openModal('51657967bbbca946ae203f5483a64556.jpg')">
+  </div>
+  <div class="carrusel-slide">
+    <img src="3c9eaf239f473cafb9e9bc3cf7837f92.jpg" alt="Sonrisa radiante" class="clickable-img" onclick="openModal('3c9eaf239f473cafb9e9bc3cf7837f92.jpg')">
+  </div>
 </div>
-<div class="carrusel-slide">
-<img src="76ebfa406c88cc2a072c185032aaf519.jpg" alt="Brackets metálicos">
-</div>
-<div class="carrusel-slide">
-<img src="51657967bbbca946ae203f5483a64556.jpg" alt="Brackets transparentes">
-</div>
-<div class="carrusel-slide">
-<img src="3c9eaf239f473cafb9e9bc3cf7837f92.jpg" alt="Sonrisa radiante">
-</div>
+
             </div>
           </div>
             <div class="contact__layout">
@@ -573,6 +575,12 @@
     <!-- SCRIPTS -->
     <!-- ============================================================ -->
     <script src="script.js"></script>
+  <!-- Modal para la vista ampliada de imágenes -->
+<div id="myModal" class="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="img01" alt="Imagen ampliada">
+</div>
+
 </body>
 </html>
     <script  src="./script.js"></script>
