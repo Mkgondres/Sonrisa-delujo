@@ -1881,6 +1881,7 @@ p {
 .carrusel-slide {
    flex: 0 0 100%;
   scroll-snap-align: start;
+   scroll-snap-stop: always
   padding: 0 10px;
   box-sizing: border-box;
 }
