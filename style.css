@@ -1864,7 +1864,6 @@ p {
   width: 100%;
   overflow-x: auto;
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   margin: 20px 0;
 }
@@ -1875,13 +1874,14 @@ p {
 
 .carrusel-track {
   display: flex;
-   flex-wrap: nowrap
+   scroll-snap-type: x mandatory;
+   flex-wrap: nowrap;
 }
 
 .carrusel-slide {
    flex: 0 0 100%;
   scroll-snap-align: start;
-   scroll-snap-stop: always
+   scroll-snap-stop: always;
   padding: 0 10px;
   box-sizing: border-box;
 }
