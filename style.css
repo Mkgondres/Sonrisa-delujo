@@ -1868,23 +1868,29 @@ p {
   margin: 20px 0;
 }
 
-.carrusel-transformacion::-webkit-scrollbar {
-  display: none; 
+.carrusel-transformacion {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    margin: 20px 0;
+    scroll-snap-type: x mandatory; /* <-- AHORA VA AQUÍ (el imán del contenedor) */
 }
 
 .carrusel-track {
-  display: flex;
-   scroll-snap-type: x mandatory;
-   flex-wrap: nowrap;
+    display: flex;
+    flex-wrap: nowrap; /* <-- Aquí ya NO va el scroll-snap-type, lo quitamos */
 }
 
+
 .carrusel-slide {
-   flex: 0 0 100%;
-  scroll-snap-align: start;
-   scroll-snap-stop: always;
-  padding: 0 10px;
-  box-sizing: border-box;
+    flex: 0 0 100%;
+    scroll-snap-align: start; /* <-- Le dice: "frena al inicio de la foto" */
+    scroll-snap-stop: always;  /* <-- Le dice: "obliga a parar en esta, no te la saltes" */
+    padding: 0 10px;
+    box-sizing: border-box;
 }
+
 
 .carrusel-slide img {
   width: 100%;
