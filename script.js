@@ -346,7 +346,7 @@ function openModal(elemento) {
     modal.style.display = "block";
     
     // Buscamos las imágenes aquí dentro para asegurarnos de que la página ya las cargó
-    const imagenesGaleria = Array.from(document.querySelectorAll('.clickable-img')); 
+    const imagenesGaleria = Array.from(document.querySelectorAll('.carousel-slide')); 
     console.log("Imágenes encontradas en la galería:", imagenesGaleria.length);
 
     // Si pasaste la ruta directa como texto (un string)
@@ -362,7 +362,7 @@ function openModal(elemento) {
     
     // Si no se encuentra en la lista, por defecto empezamos en la primera
     if (indiceActual === -1) {
-        console.warn("Advertencia: La imagen clickeada no tiene la clase 'clickable-img'.");
+        console.warn("Advertencia: La imagen clickeada no tiene la clase 'carousel-slide'.");
         indiceActual = 0;
     }
 }
@@ -375,7 +375,7 @@ function closeModal() {
 
 // 3. Función para cambiar de imagen con las flechas
 function changeImage(direccion) {
-    const imagenesGaleria = Array.from(document.querySelectorAll('.clickable-img')); 
+    const imagenesGaleria = Array.from(document.querySelectorAll('.carousel-slide')); 
     
     if (imagenesGaleria.length === 0) {
         console.error("ERROR: No se puede cambiar de imagen porque la lista está vacía. Revisa las clases en tu HTML.");
