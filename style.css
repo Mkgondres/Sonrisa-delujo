@@ -1941,6 +1941,50 @@ p {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+/* Contenedor para alinear la imagen y las flechas */
+.modal-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 80%;
+    margin: auto;
+    padding-top: 50px;
+}
+
+/* Estilo general para los botones de navegación */
+.prev-btn, .next-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 16px;
+    transition: 0.3s ease;
+    border-radius: 5px;
+    user-select: none;
+    z-index: 1010;
+}
+
+/* Posición específica */
+.prev-btn { left: -60px; }
+.next-btn { right: -60px; }
+
+/* Efecto hover */
+.prev-btn:hover, .next-btn:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+}
+
+/* Ajuste responsivo para celulares */
+@media only screen and (max-width: 768px) {
+    .modal-container { max-width: 95%; }
+    .prev-btn { left: 10px; font-size: 20px; padding: 10px; }
+    .next-btn { right: 10px; font-size: 20px; padding: 10px; }
+}
 
 
 /* FIN DE LA PARTE 2 — ARCHIVO COMPLETO */
