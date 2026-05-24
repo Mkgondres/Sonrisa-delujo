@@ -331,54 +331,32 @@ function initSmoothScroll() {
     });
   });
 }
-function openModal(imageSrc) {
-  var modal = document.getElementById("myModal");
-  var modalImg = document.getElementById("img01");
-  modal.style.display = "block";
-  modalImg.src = imageSrc;
-}
-
-function closeModal() {
-  var modal = document.getElementById("myModal");
-  modal.style.display = "none";
-}
-// 1. Guardamos todas las imágenes de tu galería en una lista
-// NOTA: Asegúrate de cambiar '.tu-galeria img' por la clase real de tus fotos (por ejemplo, '.portfolio-item' o '.gallery img')
-const imagenesGaleria = Array.from(document.querySelectorAll('.tu-galeria img')); 
+const imagenesGaleria = Array.from(document.querySelectorAll('.clickable-img')); 
 let indiceActual = 0;
 
-// 2. Función modificada para abrir el modal
 function openModal(elemento) {
     const modal = document.getElementById("myModal");
     const modalImg = document.getElementById("img01");
     
     modal.style.display = "block";
     modalImg.src = elemento.src;
-    
-    // Guardamos la posición de la foto que tocaste
     indiceActual = imagenesGaleria.indexOf(elemento);
 }
 
-// 3. Función para cerrar el modal
 function closeModal() {
     document.getElementById("myModal").style.display = "none";
 }
 
-// 4. NUEVA FUNCIÓN: Para cambiar de imagen con las flechas
 function changeImage(direccion) {
-    // Sumamos o restamos al índice actual (-1 para izquierda, 1 para derecha)
     indiceActual += direccion;
     
-    // Si pasamos de la última foto, volvemos a la primera
     if (indiceActual >= imagenesGaleria.length) {
         indiceActual = 0;
     }
-    // Si retrocedemos de la primera foto, nos lleva a la última
     if (indiceActual < 0) {
         indiceActual = imagenesGaleria.length - 1;
     }
     
-    // Cambiamos la fuente de la imagen del modal por la nueva foto
     const modalImg = document.getElementById("img01");
     modalImg.src = imagenesGaleria[indiceActual].src;
 }
