@@ -575,15 +575,22 @@
     <!-- SCRIPTS -->
     <!-- ============================================================ -->
     <script src="script.js"></script>
-  <!-- Modal para la vista ampliada de imágenes -->
+  <!-- Modal para la vista ampliada de imágenes con navegación -->
 <div id="myModal" class="modal">
-  <span class="close" onclick="closeModal()">&times;</span>
-  <img class="modal-content" id="img01" alt="Imagen ampliada">
+    <span class="close" onclick="closeModal()">&times;</span>
+    
+    <div class="modal-container">
+        <!-- Botón Izquierdo (Anterior) -->
+        <button class="modal-nav prev-btn" onclick="changeImage(-1)">&#10094;</button>
+        
+        <!-- Imagen del Modal -->
+        <img class="modal-content" id="img01" alt="Imagen ampliada">
+        
+        <!-- Botón Derecho (Siguiente) -->
+        <button class="modal-nav next-btn" onclick="changeImage(1)">&#10095;</button>
+    </div>
 </div>
 
-</body>
-</html>
-    <script  src="./script.js"></script>
 
   </body>
   
