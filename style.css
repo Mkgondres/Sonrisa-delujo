@@ -1902,7 +1902,7 @@ p {
 }
 
 .modal {
-  display: noen; 
+  display: none; 
   position: fixed; 
   z-index: 10000; 
   padding-top: 100px; 
