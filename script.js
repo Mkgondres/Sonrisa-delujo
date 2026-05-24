@@ -331,30 +331,51 @@ function initSmoothScroll() {
     });
   });
 }
+// 1. Buscamos todas las imágenes de la galería
+// NOTA: Asegúrate de que tus etiquetas <img> tengan la clase 'clickable-img'
 const imagenesGaleria = Array.from(document.querySelectorAll('.clickable-img')); 
 let indiceActual = 0;
 
+// 2. Función para abrir el modal (Mejorada a prueba de errores)
 function openModal(elemento) {
     const modal = document.getElementById("myModal");
     const modalImg = document.getElementById("img01");
     
     modal.style.display = "block";
-    modalImg.src = elemento.src;
-    indiceActual = imagenesGaleria.indexOf(elemento);
+    
+    // Si en el HTML pasaste la ruta directa como texto (un string)
+    if (typeof elemento === 'string') {
+        modalImg.src = elemento;
+        indiceActual = imagenesGaleria.findIndex(img => img.getAttribute('src') === elemento);
+    } 
+    // Si en el HTML pasaste "this" (el elemento completo)
+    else if (elemento && elemento.src) {
+        modalImg.src = elemento.src;
+        indiceActual = imagenesGaleria.indexOf(elemento);
+    }
+    
+    // Si no encuentra la imagen en la lista por algún motivo, empieza desde la primera
+    if (indiceActual === -1) {
+        indiceActual = 0;
+    }
 }
 
+// 3. Función para cerrar el modal
 function closeModal() {
     document.getElementById("myModal").style.display = "none";
 }
 
+// 4. Función para cambiar de imagen con las flechas
 function changeImage(direccion) {
+    if (imagenesGaleria.length === 0) return; // Si la lista está vacía, no hace nada
+    
     indiceActual += direccion;
     
     if (indiceActual >= imagenesGaleria.length) {
-        indiceActual = 0;
+        indiceActual = 0; // Vuelve a la primera
     }
     if (indiceActual < 0) {
-        indiceActual = imagenesGaleria.length - 1;
+        indiceActual = imagenesGaleria.length - 1; // Va a la última
     }
     
     const modalImg = document.getElementById("img01");
