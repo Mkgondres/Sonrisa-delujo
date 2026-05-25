@@ -403,38 +403,7 @@
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
 
 <!-- 2. Tus estilos personalizados para ordenar las fotos en cuadrícula -->
-<style>
-  .galeria-fotos {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px 0;
-  }
 
-  /* El contenedor/enlace de cada foto */
-  .galeria-fotos a {
-    text-decoration: none;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    background-color: #ffffff;
-  }
-
-  /* Animación sutil al pasar el cursor o presionar */
-  .galeria-fotos a:hover {
-    transform: scale(1.04);
-  }
-
-  /* Tamaño y ajuste de las miniaturas en tu página */
-  .galeria-fotos img {
-    width: 280px;
-    height: 210px;
-    object-fit: cover; /* Evita que las fotos se deformen */
-    display: block;
-  }
-</style>
 
 <!-- 3. Contenedor de la galería con tus imágenes exactas -->
 <div class="galeria-fotos" id="mi-galeria">
