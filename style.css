@@ -1986,39 +1986,25 @@ p {
     .next-btn { right: 10px; font-size: 20px; padding: 10px; }
 }
 /* GALERÍA PHOTOSWIPE - SONRISA DE LUJO */
+/* Contenedor principal del carrusel */
 .carousel-photos {
   display: flex;
-  gap: 15px;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 15px 10px;
-  scrollbar-width: none;
+  gap: 15px;
+  padding: 20px 0;
 }
-
-.carousel-photos::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-photos a {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  text-decoration: none;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease;
-}
-
-.carousel-photos a:hover {
-  transform: scale(1.02);
-}
-
+/* Las imágenes dentro del carrusel */
 .carousel-photos img {
-  width: 260px;
-  height: 195px;
-  object-fit: cover;
-  display: block;
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
 }
+/* Efecto visual al pasar el mouse por encima */
+.carousel-photos img:hover {
+  transform: scale(1.05);
+}
+
 
 
 /* FIN DE LA PARTE 2 — ARCHIVO COMPLETO */
