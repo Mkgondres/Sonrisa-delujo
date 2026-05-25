@@ -397,43 +397,6 @@
             </div>
 <link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
 
-<style>
-  .carrusel-fotos {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto; /* Permite el deslizamiento horizontal (carrusel) */
-    scroll-snap-type: x mandatory;
-    padding: 15px 10px;
-    scrollbar-width: none; /* Oculta la barra en Firefox */
-  }
-
-  /* Oculta la barra de scroll en Chrome y Safari para que se vea limpio */
-  .carrusel-fotos::-webkit-scrollbar {
-    display: none;
-  }
-
-  .carrusel-fotos a {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    text-decoration: none;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease;
-  }
-
-  .carrusel-fotos a:hover {
-    transform: scale(1.02);
-  }
-
-  /* Tamaño controlado de las imágenes en el carrusel */
-  .carrusel-fotos img {
-    width: 260px;
-    height: 195px;
-    object-fit: cover;
-    display: block;
-  }
-</style>
 
 <div class="carrusel-fotos" id="mi-galeria">
   
@@ -454,93 +417,20 @@
   </a>
 
 </div>
-
-<script type="module">
-  import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.3/dist/photoswipe-lightbox.esm.js';
-  
-  const lightbox = new PhotoSwipeLightbox({
-    gallery: '#mi-galeria',
-    children: 'a',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.js')
-  });
-  
-  lightbox.init();
-</script>
-<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.css">
-
-<style>
-  .carrusel-fotos {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto; /* Permite el deslizamiento horizontal (carrusel) */
-    scroll-snap-type: x mandatory;
-    padding: 15px 10px;
-    scrollbar-width: none; /* Oculta la barra en Firefox */
-  }
-
-  /* Oculta la barra de scroll en Chrome y Safari para que se vea limpio */
-  .carrusel-fotos::-webkit-scrollbar {
-    display: none;
-  }
-
-  .carrusel-fotos a {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    text-decoration: none;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease;
-  }
-
-  .carrusel-fotos a:hover {
-    transform: scale(1.02);
-  }
-
-  /* Tamaño controlado de las imágenes en el carrusel */
-  .carrusel-fotos img {
-    width: 260px;
-    height: 195px;
-    object-fit: cover;
-    display: block;
-  }
-</style>
-
-<div class="carrusel-fotos" id="mi-galeria">
-  
-  <a href="1779559067903.png" data-pswp-width="1200" data-pswp-height="800">
-    <img src="1779559067903.png" alt="Clínica Lumina Dental">
-  </a>
-
-  <a href="76ebfa406c88cc2a072c185032aaf519.jpg" data-pswp-width="1200" data-pswp-height="800">
-    <img src="76ebfa406c88cc2a072c185032aaf519.jpg" alt="Brackets metálicos">
-  </a>
-
-  <a href="51657967bbbca946ae203f5483a64556.jpg" data-pswp-width="1200" data-pswp-height="800">
-    <img src="51657967bbbca946ae203f5483a64556.jpg" alt="Brackets transparentes">
-  </a>
-
-  <a href="3c9eaf239f473cafb9ebc3cf7837f92.png" data-pswp-width="1200" data-pswp-height="800">
-    <img src="3c9eaf239f473cafb9ebc3cf7837f92.png" alt="Sonrisa radiante">
-  </a>
-
 </div>
 
 <script type="module">
-  import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5.4.3/dist/photoswipe-lightbox.esm.js';
+  import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js';
   
   const lightbox = new PhotoSwipeLightbox({
-    gallery: '#mi-galeria',
+    gallery: '.carousel-photos',
     children: 'a',
-    pswpModule: () => import('https://unpkg.com/photoswipe@5.4.3/dist/photoswipe.js')
+    pswpModule: () => import('https://unpkg.com/photoswipe/dist/photoswipe.esm.js')
   });
   
   lightbox.init();
 </script>
 
-
-
-            </div>
           </div>
             <div class="contact__layout">
                 <!-- Bloque A: Información de Contacto -->
