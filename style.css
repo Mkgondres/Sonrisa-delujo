@@ -1985,6 +1985,34 @@ p {
     .prev-btn { left: 10px; font-size: 20px; padding: 10px; }
     .next-btn { right: 10px; font-size: 20px; padding: 10px; }
 }
+/* GALERÍA PHOTOSWIPE - SONRISA DE LUJO */
+.galeria-fotos {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.galeria-fotos a {
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background-color: #ffffff;
+}
+
+.galeria-fotos a:hover {
+  transform: scale(1.04);
+}
+
+.galeria-fotos img {
+  width: 280px;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
 
 
 /* FIN DE LA PARTE 2 — ARCHIVO COMPLETO */
