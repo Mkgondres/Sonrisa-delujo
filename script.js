@@ -333,66 +333,15 @@ function initSmoothScroll() {
 }
 let indiceActual = 0;
 
-// 1. Función para abrir el modal
-function openModal(elemento) {
-    const modal = document.getElementById("myModal");
-    const modalImg = document.getElementById("img01");
-    
-    if (!modal || !modalImg) {
-        console.error("ERROR: No se encontró el modal ('myModal') o la imagen del modal ('img01') en tu HTML.");
-        return;
-    }
+// ==========================================================================
+// INICIALIZACIÓN DE LA GALERÍA VIP (PHOTOSWIPE)
+// ==========================================================================
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js';
 
-    modal.style.display = "block";
-    
-    // Buscamos las imágenes aquí dentro para asegurarnos de que la página ya las cargó
-    const imagenesGaleria = Array.from(document.querySelectorAll('.carousel-slide')); 
-    console.log("Imágenes encontradas en la galería:", imagenesGaleria.length);
+const lightbox = new PhotoSwipeLightbox({
+    gallery: '#mi-galeria', // Vinculación directa con el ID de tus imágenes
+    children: 'a',
+    pswpModule: () => import('https://unpkg.com/photoswipe/dist/photoswipe.esm.js')
+});
 
-    // Si pasaste la ruta directa como texto (un string)
-    if (typeof elemento === 'string') {
-        modalImg.src = elemento;
-        indiceActual = imagenesGaleria.findIndex(img => img.getAttribute('src') === elemento || img.src.includes(elemento));
-    } 
-    // Si pasaste "this" (el elemento completo)
-    else if (elemento && elemento.src) {
-        modalImg.src = elemento.src;
-        indiceActual = imagenesGaleria.indexOf(elemento);
-    }
-    
-    // Si no se encuentra en la lista, por defecto empezamos en la primera
-    if (indiceActual === -1) {
-        console.warn("Advertencia: La imagen clickeada no tiene la clase 'carousel-slide'.");
-        indiceActual = 0;
-    }
-}
-
-// 2. Función para cerrar el modal
-function closeModal() {
-    const modal = document.getElementById("myModal");
-    if (modal) modal.style.display = "none";
-}
-
-// 3. Función para cambiar de imagen con las flechas
-function changeImage(direccion) {
-    const imagenesGaleria = Array.from(document.querySelectorAll('.carousel-slide')); 
-    
-    if (imagenesGaleria.length === 0) {
-        console.error("ERROR: No se puede cambiar de imagen porque la lista está vacía. Revisa las clases en tu HTML.");
-        return;
-    }
-    
-    indiceActual += direccion;
-    
-    if (indiceActual >= imagenesGaleria.length) {
-        indiceActual = 0; // Vuelve a la primera
-    }
-    if (indiceActual < 0) {
-        indiceActual = imagenesGaleria.length - 1; // Va a la última
-    }
-    
-    const modalImg = document.getElementById("img01");
-    if (modalImg) {
-        modalImg.src = imagenesGaleria[indiceActual].src;
-    }
-}
+lightbox.init();
