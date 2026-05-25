@@ -1985,14 +1985,52 @@ p {
     .prev-btn { left: 10px; font-size: 20px; padding: 10px; }
     .next-btn { right: 10px; font-size: 20px; padding: 10px; }
 }
-/* GALERÍA PHOTOSWIPE - SONRISA DE LUJO */
+/* ==========================================================================
+   CARRUSEL HORIZONTAL Y EFECTO IMÁN (SCROLL SNAP)
+   ========================================================================== */
 .carousel-photos {
     display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important; /* Activa el efecto imán */
+    gap: 15px !important;
+    padding: 15px 5px !important;
+    scrollbar-width: none !important; /* Oculta la barra de scroll en Firefox */
+    -webkit-overflow-scrolling: touch !important;
 }
+
+/* Oculta la barra de scroll en Chrome, Safari y pantallas móviles */
+.carousel-photos::-webkit-scrollbar {
+    display: none !important;
+}
+
 .carousel-photos a {
-    flex: 0 0 auto !important;
+    flex: 0 0 280px !important; /* Tamaño fijo para mantener la fila en PC y Móvil */
+    scroll-snap-align: center !important; /* Fuerza a la foto a centrarse al soltar el scroll */
+    display: block !important;
+}
+
+.carousel-photos img {
+    width: 100% !important;
+    height: 220px !important; /* Altura idéntica para todas las imágenes */
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ==========================================================================
+   DISEÑO DEL VISOR (ZOOM): ADIÓS AL FONDO NEGRO
+   ========================================================================== */
+.pswp__bg {
+    background: rgba(255, 255, 255, 0.85) !important; /* Fondo claro sofisticado */
+    backdrop-filter: blur(8px) !important; /* Efecto vidrio esmerilado detrás de la foto */
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Cambia el color de los iconos de control a oscuro para que contrasten con el fondo claro */
+.pswp__button, 
+.pswp__counter {
+    color: #111111 !important;
 }
 
 
