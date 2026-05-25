@@ -2004,6 +2004,9 @@ p {
 .carousel-photos img:hover {
   transform: scale(1.05);
 }
+.carousel-photos a {
+  flex: 0 0 auto;
+}
 
 
 
