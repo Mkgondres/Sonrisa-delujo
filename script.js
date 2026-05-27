@@ -170,10 +170,10 @@ function initContactForm() {
     return emailRegex.test(email);
   }
 
-  // Validación de teléfono: 10 dígitos numéricos
+  // Validación de teléfono: 12 dígitos numéricos
   function isValidMexicanPhone(phone) {
     const digitsOnly = phone.replace(/\D/g, '');
-    return /^\d{10}$/.test(digitsOnly);
+    return /^\d{12}$/.test(digitsOnly);
   }
 
   function showSuccessMessage() {
@@ -215,7 +215,7 @@ function initContactForm() {
       showFieldError(phone, 'El teléfono es obligatorio.');
       isValid = false;
     } else if (!isValidMexicanPhone(phone.value.trim())) {
-      showFieldError(phone, 'Ingrese un número de teléfono válido de 10 dígitos.');
+      showFieldError(phone, 'Ingrese un número de teléfono válido.');
       isValid = false;
     }
 
