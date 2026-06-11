@@ -386,6 +386,10 @@ p {
   border-radius: var(--radius-md);
   background-color: transparent;
   transition: background-color var(--transition-fast);
+  
+  /* AQUÍ ESTÁN LAS DOS LÍNEAS NUEVAS */
+  position: relative;
+  z-index: 1001;
 }
 
 .navbar__toggle:hover {
@@ -396,7 +400,7 @@ p {
   display: block;
   width: 1.25rem;
   height: 2px;
-  background-color: var(--primary);
+  background-color: var(--primary); /* El color oscuro resaltará perfecto sobre tu menú blanco */
   border-radius: 2px;
   transition: all var(--transition-smooth);
   margin: 2px 0;
@@ -414,6 +418,7 @@ p {
 .navbar__toggle--active .navbar__toggle-bar:nth-child(3) {
   transform: translateY(-6px) rotate(-45deg);
 }
+
 
 /* Menú móvil oculto por defecto */
 @media (max-width: 1024px) {
