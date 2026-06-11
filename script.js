@@ -424,3 +424,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+/* ==========================================================================
+   CONTROL DEL MENÚ HAMBURGUESA (MÓVIL) Y CLICS EXTERNOS
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const navbarToggle = document.getElementById('navbarToggle');
+    const navbarNav = document.getElementById('navbarNav');
+    const navbarLinks = document.querySelectorAll('.navbar__link');
+
+    if (navbarToggle && navbarNav) {
+        // 1. Abrir/Cerrar el menú al tocar el icono (Activa la "X" de tu CSS)
+        navbarToggle.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evita que el clic se confunda con un clic fuera del menú
+            navbarToggle.classList.toggle('navbar__toggle--active');
+            navbarNav.classList.toggle('navbar__nav--open');
+            
+            // Mejora de accesibilidad para lectores de pantalla
+            const isExpanded = navbarToggle.getAttribute('aria-expanded') === 'true';
+            navbarToggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // 2. Cerrar el menú al tocar FUERA de él
+        document.addEventListener('click', (event) => {
+            const isMenuOpen = navbarNav.classList.contains('navbar__nav--open');
+            const isClickInsideMenu = navbarNav.contains(event.target);
+            const isClickOnToggle = navbarToggle.contains(event.target);
+
+            // Si el menú está abierto, y el clic NO fue ni en el menú ni en el botón...
+            if (isMenuOpen && !isClickInsideMenu && !isClickOnToggle) {
+                navbarToggle.classList.remove('navbar__toggle--active');
+                navbarNav.classList.remove('navbar__nav--open');
+                navbarToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // 3. Cerrar el menú al tocar cualquier ENLACE (Para ir a una sección)
+        navbarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navbarToggle.classList.remove('navbar__toggle--active');
+                navbarNav.classList.remove('navbar__nav--open');
+                navbarToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+});
