@@ -2064,16 +2064,16 @@ p {
 }
 
 /* ============================================================
-   MODAL DE ÉXITO VIP (FORMULARIO)
+   MODALES VIP (ÉXITO Y ADVERTENCIA)
    ============================================================ */
-.success-modal {
+.luxury-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(15, 23, 42, 0.7); /* Tono oscuro elegante */
-    backdrop-filter: blur(8px); /* Efecto vidrio esmerilado */
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -2084,13 +2084,12 @@ p {
     transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
 }
 
-/* Clase que activará el JavaScript para mostrarlo */
-.success-modal.is-active {
+.luxury-modal.is-active {
     opacity: 1;
     visibility: visible;
 }
 
-.success-modal__content {
+.luxury-modal__content {
     background-color: #FFFFFF;
     border-radius: var(--radius-2xl);
     padding: 3.5rem 2.5rem;
@@ -2104,12 +2103,11 @@ p {
     border: 1px solid var(--accent-gold);
 }
 
-.success-modal.is-active .success-modal__content {
-    transform: translateY(0); /* Sube suavemente al aparecer */
+.luxury-modal.is-active .luxury-modal__content {
+    transform: translateY(0);
 }
 
-/* Botón de la "X" para cerrar */
-.success-modal__close {
+.luxury-modal__close {
     position: absolute;
     top: 1rem;
     right: 1.5rem;
@@ -2119,18 +2117,20 @@ p {
     line-height: 1;
 }
 
-.success-modal__close:hover {
-    color: var(--accent-gold);
+.luxury-modal__close:hover {
+    color: var(--primary);
 }
 
-/* Ícono de éxito */
-.success-modal__icon {
+.luxury-modal__icon {
     font-size: 4rem;
-    color: var(--accent-mint);
     margin-bottom: 1.5rem;
 }
 
-.success-modal__title {
+/* Colores específicos para cada aviso */
+.luxury-modal__icon--success { color: var(--accent-mint); }
+.luxury-modal__icon--warning { color: var(--accent-gold); }
+
+.luxury-modal__title {
     font-family: 'Playfair Display', serif;
     font-size: 1.75rem;
     font-weight: 600;
@@ -2138,7 +2138,7 @@ p {
     margin-bottom: 1rem;
 }
 
-.success-modal__text {
+.luxury-modal__text {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
