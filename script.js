@@ -303,3 +303,31 @@ function initPhotoSwipe() {
   });
   lightbox.init();
 }
+/* ==========================================================================
+   VALIDACIÓN DEL FORMULARIO DE CITA VIP (CLÍNICA LUMINA)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    const appointmentForm = document.getElementById('appointment-form');
+
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', (event) => {
+            // Selecciona todos los campos que tienen el atributo 'required'
+            const requiredFields = appointmentForm.querySelectorAll('[required]');
+            let hasEmptyFields = false;
+
+            // Revisa uno por uno si están vacíos
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    hasEmptyFields = true;
+                    // Opcional: Puedes añadir una clase CSS aquí si quisieras pintar el borde de rojo
+                }
+            });
+
+            // Si hay al menos un espacio en blanco, detiene el envío y muestra el cartel
+            if (hasEmptyFields) {
+                event.preventDefault(); // Detiene el envío del formulario
+                alert('Por favor, complete todos los campos (*).');
+            }
+        });
+    }
+});
