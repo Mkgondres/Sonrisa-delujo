@@ -304,7 +304,8 @@ function initPhotoSwipe() {
   lightbox.init();
 }
 /* ==========================================================================
-   VALIDACIÓN, ENVÍO A WHATSAPP Y MODALES DEL FORMULARIO VIP
+/* ==========================================================================
+   VALIDACIÓN, ENVÍO INVISIBLE POR CORREO Y MODALES VIP
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const appointmentForm = document.getElementById('appointment-form');
@@ -316,14 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Identificamos los botones de cerrar
     const closeSuccessBtn = document.getElementById('close-success-modal');
     const closeWarningBtn = document.getElementById('close-warning-modal');
-
-    // NÚMERO DE WHATSAPP DE LA CLÍNICA (Solo números, sin el símbolo +)
-    const clinicWhatsApp = "5541995018745"; 
+    
+    // Botón de enviar para cambiar su texto a "Enviando..."
+    const submitBtn = appointmentForm ? appointmentForm.querySelector('button[type="submit"]') : null;
 
     // Función rápida para cerrar modales
     const closeModal = (modal) => {
         if (modal) modal.classList.remove('is-active');
     };
+
+    // ==========================================
+    // ⚠️ PON AQUÍ EL CORREO DE LA CLÍNICA
+    // ==========================================
+    const clinicEmail = "gondresmk@gmail.com"; 
 
     if (appointmentForm) {
         appointmentForm.addEventListener('submit', (event) => {
@@ -343,41 +349,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 // FALTAN DATOS: Mostramos cartel de advertencia
                 if (warningModal) warningModal.classList.add('is-active');
             } else {
-                // TODO PERFECTO: Extraemos la información del formulario
+                // TODO PERFECTO: Preparamos el envío invisible
+                
+                // Cambiamos el texto del botón para que el cliente sepa que está cargando
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando solicitud...';
+                submitBtn.disabled = true;
+
+                // Extraemos los datos
                 const name = document.getElementById('fullname').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const email = document.getElementById('email').value.trim();
-                
-                // Extraemos el texto visible del servicio seleccionado
                 const serviceSelect = document.getElementById('service');
                 const service = serviceSelect.options[serviceSelect.selectedIndex].text;
-                
-                // Extraemos fecha y notas (o ponemos texto por defecto si los dejaron vacíos)
                 const dateVal = document.getElementById('preferred-date').value.trim();
                 const date = dateVal ? dateVal : 'No especificada';
-                
                 const messageVal = document.getElementById('message').value.trim();
                 const message = messageVal ? messageVal : 'Sin notas adicionales';
 
-                // 2. Construimos el mensaje de WhatsApp estructurado (con negritas *)
-                const whatsappText = `*Nueva Solicitud de Cita VIP - Lumina* 💎\n\n` +
-                                     `*Nombre:* ${name}\n` +
-                                     `*Teléfono:* ${phone}\n` +
-                                     `*Correo:* ${email}\n` +
-                                     `*Servicio:* ${service}\n` +
-                                     `*Fecha Deseada:* ${date}\n` +
-                                     `*Notas:* ${message}`;
+                // 2. Enviamos los datos de forma invisible a Formsubmit mediante AJAX
+                fetch(`https://formsubmit.co/ajax/${clinicEmail}`, {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `💎 Nueva Solicitud de Cita VIP: ${name}`, // Título del correo
+                        Nombre: name,
+                        Teléfono: phone,
+                        Correo: email,
+                        Servicio: service,
+                        Fecha_Deseada: date,
+                        Notas: message,
+                        _template: "table" // Formato bonito en el correo
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 3. SE ENVIÓ CORRECTAMENTE
+                    // Restauramos el botón
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
 
-                // Codificamos el texto para que la URL lo pueda leer correctamente (respeta saltos de línea y espacios)
-                const encodedText = encodeURIComponent(whatsappText);
-                const whatsappUrl = `https://wa.me/${clinicWhatsApp}?text=${encodedText}`;
-
-                // 3. ¡Magia! Abrimos WhatsApp en una pestaña nueva
-                window.open(whatsappUrl, '_blank');
-
-                // 4. Mostramos el cartel bonito de "Éxito" en tu web y limpiamos el formulario
-                if (successModal) successModal.classList.add('is-active');
-                appointmentForm.reset();
+                    // Mostramos el cartel bonito de "Éxito" y limpiamos el formulario
+                    if (successModal) successModal.classList.add('is-active');
+                    appointmentForm.reset();
+                })
+                .catch(error => {
+                    // Si algo falla en la conexión de internet
+                    console.log(error);
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                    alert("Hubo un error de conexión. Por favor, intente de nuevo.");
+                });
             }
         });
     }
