@@ -304,30 +304,62 @@ function initPhotoSwipe() {
   lightbox.init();
 }
 /* ==========================================================================
-   VALIDACIÓN DEL FORMULARIO DE CITA VIP (CLÍNICA LUMINA)
+   VALIDACIÓN Y MODALES DEL FORMULARIO VIP
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const appointmentForm = document.getElementById('appointment-form');
+    
+    // Identificamos los dos modales
+    const successModal = document.getElementById('success-modal');
+    const warningModal = document.getElementById('warning-modal');
+
+    // Identificamos los botones de cerrar (la "X") de cada modal
+    const closeSuccessBtn = document.getElementById('close-success-modal');
+    const closeWarningBtn = document.getElementById('close-warning-modal');
+
+    // Función rápida para cerrar cualquier modal
+    const closeModal = (modal) => {
+        if (modal) modal.classList.remove('is-active');
+    };
 
     if (appointmentForm) {
         appointmentForm.addEventListener('submit', (event) => {
-            // Selecciona todos los campos que tienen el atributo 'required'
+            event.preventDefault(); // Bloqueamos la recarga de la página
+
             const requiredFields = appointmentForm.querySelectorAll('[required]');
             let hasEmptyFields = false;
 
-            // Revisa uno por uno si están vacíos
+            // Revisamos si falta algo
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     hasEmptyFields = true;
-                    // Opcional: Puedes añadir una clase CSS aquí si quisieras pintar el borde de rojo
                 }
             });
 
-            // Si hay al menos un espacio en blanco, detiene el envío y muestra el cartel
             if (hasEmptyFields) {
-                event.preventDefault(); // Detiene el envío del formulario
-                alert('Por favor, complete todos los campos (*).');
+                // FALTAN DATOS: Mostramos el cartel bonito de advertencia
+                if (warningModal) warningModal.classList.add('is-active');
+            } else {
+                // TODO PERFECTO: Mostramos el cartel de éxito y limpiamos el formulario
+                if (successModal) successModal.classList.add('is-active');
+                appointmentForm.reset();
             }
+        });
+    }
+
+    // Eventos para cerrar el modal de Éxito (con la X o tocando afuera)
+    if (closeSuccessBtn && successModal) {
+        closeSuccessBtn.addEventListener('click', () => closeModal(successModal));
+        successModal.addEventListener('click', (event) => {
+            if (event.target === successModal) closeModal(successModal);
+        });
+    }
+
+    // Eventos para cerrar el modal de Advertencia (con la X o tocando afuera)
+    if (closeWarningBtn && warningModal) {
+        closeWarningBtn.addEventListener('click', () => closeModal(warningModal));
+        warningModal.addEventListener('click', (event) => {
+            if (event.target === warningModal) closeModal(warningModal);
         });
     }
 });
