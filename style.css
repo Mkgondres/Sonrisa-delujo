@@ -1093,10 +1093,9 @@ p {
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
-
 /* ------------------------------------------------------------
-   12. SECCIÓN DE FAQ - ACORDEÓN (#faq)
-   ------------------------------------------------------------ */
+   12. SECCIÓN DE FAQ - ACORDEÓN (#faq) - REESTRUCTURADO NATIVO
+   ----------------------------------------------------------- */
 .faq-section {
   padding: var(--section-padding-y) 1.5rem;
   background-color: var(--bg-main);
@@ -1115,12 +1114,12 @@ p {
   gap: 1rem;
 }
 
-/* Elemento individual del acordeón */
+/* Elemento individual del acordeón nativo HTML5 */
 .faq__item {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   background-color: #FFFFFF;
-  transition: all var(--transition-smooth);
+  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
   overflow: hidden;
 }
 
@@ -1128,7 +1127,15 @@ p {
   border-color: var(--gray-300);
 }
 
-/* Botón trigger */
+/* Ocultar la flecha por defecto del sistema en todos los navegadores */
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+.faq__item summary {
+  list-style: none;
+}
+
+/* El botón/encabezado trigger */
 .faq-trigger {
   display: flex;
   align-items: center;
@@ -1136,7 +1143,6 @@ p {
   width: 100%;
   padding: 1.25rem 1.75rem;
   background: none;
-  border: none;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-size: 1.0625rem;
@@ -1145,14 +1151,12 @@ p {
   text-align: left;
   transition: color var(--transition-fast);
   gap: 1rem;
+  user-select: none;
+  outline: none;
 }
 
 .faq-trigger:hover {
   color: var(--accent-mint);
-}
-
-.faq-trigger__text {
-  pointer-events: none;
 }
 
 .faq-trigger__icon {
@@ -1160,33 +1164,35 @@ p {
   color: var(--text-muted);
   transition: transform 0.3s ease, color 0.3s ease;
   flex-shrink: 0;
-  pointer-events: none;
 }
 
-/* Estado activo del trigger (aplicar con clase .active mediante JS) */
-.faq__item.active .faq-trigger {
+/* ============================================================
+   ESTADOS DE APERTURA NATIVOS (Cuando el acordeón está [open])
+   ============================================================ */
+.faq__item[open] {
+  border-color: var(--accent-mint);
+  box-shadow: var(--shadow-md);
+}
+
+.faq__item[open] .faq-trigger {
   color: var(--accent-mint);
 }
 
-.faq__item.active .faq-trigger__icon {
+/* Rotación elegante de la flecha al abrir */
+.faq__item[open] .faq-trigger__icon {
   transform: rotate(180deg);
   color: var(--accent-mint);
 }
 
 /* Contenido colapsable */
 .faq-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.faq__item.active .faq-content {
-  max-height: 600px; /* Suficiente para el contenido más largo */
+  background-color: var(--bg-soft);
+  border-top: 1px solid var(--gray-100);
+  animation: slideDown 0.3s ease-out; /* Animación de entrada suave al abrir */
 }
 
 .faq-content__inner {
-  padding: 0 1.75rem 1.5rem 1.75rem;
+  padding: 1.5rem 1.75rem;
 }
 
 .faq-content__inner p {
@@ -1196,6 +1202,30 @@ p {
   color: var(--text-muted);
   margin-bottom: 0;
 }
+
+/* Animación sutil de despliegue */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+  .faq-trigger {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+  .faq-content__inner {
+    padding: 1.25rem;
+  }
+}
+
 
 /* ------------------------------------------------------------
    13. SECCIÓN DE CONTACTO Y CITA VIP (#contact)
