@@ -304,7 +304,7 @@ function initPhotoSwipe() {
   lightbox.init();
 }
 /* ==========================================================================
-   VALIDACIÓN Y MODALES DEL FORMULARIO VIP
+   VALIDACIÓN, ENVÍO A WHATSAPP Y MODALES DEL FORMULARIO VIP
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     const appointmentForm = document.getElementById('appointment-form');
@@ -313,11 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const successModal = document.getElementById('success-modal');
     const warningModal = document.getElementById('warning-modal');
 
-    // Identificamos los botones de cerrar (la "X") de cada modal
+    // Identificamos los botones de cerrar
     const closeSuccessBtn = document.getElementById('close-success-modal');
     const closeWarningBtn = document.getElementById('close-warning-modal');
 
-    // Función rápida para cerrar cualquier modal
+    // NÚMERO DE WHATSAPP DE LA CLÍNICA (Solo números, sin el símbolo +)
+    const clinicWhatsApp = "5541995018745"; 
+
+    // Función rápida para cerrar modales
     const closeModal = (modal) => {
         if (modal) modal.classList.remove('is-active');
     };
@@ -329,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const requiredFields = appointmentForm.querySelectorAll('[required]');
             let hasEmptyFields = false;
 
-            // Revisamos si falta algo
+            // 1. Revisamos si falta algo
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     hasEmptyFields = true;
@@ -337,17 +340,51 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (hasEmptyFields) {
-                // FALTAN DATOS: Mostramos el cartel bonito de advertencia
+                // FALTAN DATOS: Mostramos cartel de advertencia
                 if (warningModal) warningModal.classList.add('is-active');
             } else {
-                // TODO PERFECTO: Mostramos el cartel de éxito y limpiamos el formulario
+                // TODO PERFECTO: Extraemos la información del formulario
+                const name = document.getElementById('fullname').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                
+                // Extraemos el texto visible del servicio seleccionado
+                const serviceSelect = document.getElementById('service');
+                const service = serviceSelect.options[serviceSelect.selectedIndex].text;
+                
+                // Extraemos fecha y notas (o ponemos texto por defecto si los dejaron vacíos)
+                const dateVal = document.getElementById('preferred-date').value.trim();
+                const date = dateVal ? dateVal : 'No especificada';
+                
+                const messageVal = document.getElementById('message').value.trim();
+                const message = messageVal ? messageVal : 'Sin notas adicionales';
+
+                // 2. Construimos el mensaje de WhatsApp estructurado (con negritas *)
+                const whatsappText = `*Nueva Solicitud de Cita VIP - Lumina* 💎\n\n` +
+                                     `*Nombre:* ${name}\n` +
+                                     `*Teléfono:* ${phone}\n` +
+                                     `*Correo:* ${email}\n` +
+                                     `*Servicio:* ${service}\n` +
+                                     `*Fecha Deseada:* ${date}\n` +
+                                     `*Notas:* ${message}`;
+
+                // Codificamos el texto para que la URL lo pueda leer correctamente (respeta saltos de línea y espacios)
+                const encodedText = encodeURIComponent(whatsappText);
+                const whatsappUrl = `https://wa.me/${clinicWhatsApp}?text=${encodedText}`;
+
+                // 3. ¡Magia! Abrimos WhatsApp en una pestaña nueva
+                window.open(whatsappUrl, '_blank');
+
+                // 4. Mostramos el cartel bonito de "Éxito" en tu web y limpiamos el formulario
                 if (successModal) successModal.classList.add('is-active');
                 appointmentForm.reset();
             }
         });
     }
 
-    // Eventos para cerrar el modal de Éxito (con la X o tocando afuera)
+    // ==========================================
+    // LÓGICA PARA CERRAR LOS CARTELES
+    // ==========================================
     if (closeSuccessBtn && successModal) {
         closeSuccessBtn.addEventListener('click', () => closeModal(successModal));
         successModal.addEventListener('click', (event) => {
@@ -355,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Eventos para cerrar el modal de Advertencia (con la X o tocando afuera)
     if (closeWarningBtn && warningModal) {
         closeWarningBtn.addEventListener('click', () => closeModal(warningModal));
         warningModal.addEventListener('click', (event) => {
