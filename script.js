@@ -1,344 +1,119 @@
 /**
- * Clínica Dental Lumina — Scripts Principales (COMPLETO)
- * Funcionalidad: Navbar, Menú Móvil, FAQ, Formulario VIP y Scroll Suave
- * Vanilla JS ES6+ — Optimizado y accesible
+ * Clínica Dental Lumina — Scripts Principales (LIMPIO Y UNIFICADO)
+ * Funcionalidad: Navbar, Menú Móvil VIP, Formulario a Formsubmit, Scroll y Galería
  */
 
 // ==========================================================================
-// IMPORTS (Siempre al inicio del archivo)
+// IMPORTS
 // ==========================================================================
 import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe/dist/photoswipe-lightbox.esm.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Inicialización de todos los módulos ---
-  initNavbarScroll();
-  initMobileMenu();
-  initFAQAccordion();
-  initContactForm();
-  initCurrentYear();
-  initSmoothScroll(); // <--- ¡Activado!
-  initPhotoSwipe();
+    // Inicialización de todos los módulos
+    initNavbarScroll();
+    initMobileMenuVIP();
+    initContactFormVIP();
+    initCurrentYear();
+    initSmoothScroll();
+    initPhotoSwipe();
 });
 
 /* ============================================================
-   FUNCIÓN 1: EFECTO DE SCROLL DINÁMICO EN LA NAVBAR
+   1. SCROLL DINÁMICO EN LA NAVBAR
    ============================================================ */
 function initNavbarScroll() {
-  const navbar = document.querySelector('.navbar');
-  if (!navbar) return;
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
 
-  let ticking = false;
-  const SCROLL_THRESHOLD = 50;
+    let ticking = false;
+    const SCROLL_THRESHOLD = 50;
 
-  function updateNavbarStyle() {
-    if (window.scrollY > SCROLL_THRESHOLD) {
-      navbar.classList.add('navbar--scrolled');
-    } else {
-      navbar.classList.remove('navbar--scrolled');
-    }
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(updateNavbarStyle);
-      ticking = true;
-    }
-  });
-
-  updateNavbarStyle();
-}
-
-/* ============================================================
-   FUNCIÓN 2: CONTROL DEL MENÚ DE HAMBURGUESA MÓVIL
-   ============================================================ */
-function initMobileMenu() {
-  const toggleButton = document.getElementById('navbarToggle');
-  const navMenu = document.getElementById('navbarNav');
-
-  if (!toggleButton || !navMenu) return;
-
-  const menuLinks = navMenu.querySelectorAll('.navbar__link');
-
-  function openMenu() {
-    navMenu.classList.add('navbar__nav--open');
-    toggleButton.classList.add('navbar__toggle--active');
-    toggleButton.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeMenu() {
-    navMenu.classList.remove('navbar__nav--open');
-    toggleButton.classList.remove('navbar__toggle--active');
-    toggleButton.setAttribute('aria-expanded', 'false');
-  }
-
-  toggleButton.addEventListener('click', () => {
-    const isOpen = navMenu.classList.contains('navbar__nav--open');
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
-
-  menuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (navMenu.classList.contains('navbar__nav--open')) {
-        closeMenu();
-      }
-    });
-  });
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 1024 && navMenu.classList.contains('navbar__nav--open')) {
-      closeMenu();
-    }
-  });
-}
-
-/* ============================================================
-   FUNCIÓN 3: ACORDEÓN INTERACTIVO DE FAQ
-   ============================================================ */
-function initFAQAccordion() {
-  const triggers = document.querySelectorAll('.faq-trigger');
-  if (!triggers.length) return;
-
-  function closeFaqItem(item) {
-    item.classList.remove('active');
-    const panel = item.querySelector('.faq-content');
-    if (panel) {
-      panel.style.maxHeight = '0';
-    }
-  }
-
-  function openFaqItem(item) {
-    item.classList.add('active');
-    const panel = item.querySelector('.faq-content');
-    if (panel) {
-      panel.style.maxHeight = panel.scrollHeight + 'px';
-    }
-  }
-
-  triggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const faqItem = trigger.closest('.faq__item');
-      if (!faqItem) return;
-
-      const isActive = faqItem.classList.contains('active');
-      const allFaqItems = document.querySelectorAll('.faq__item');
-      
-      allFaqItems.forEach(item => {
-        if (item !== faqItem && item.classList.contains('active')) {
-          closeFaqItem(item);
+    function updateNavbarStyle() {
+        if (window.scrollY > SCROLL_THRESHOLD) {
+            navbar.classList.add('navbar--scrolled');
+        } else {
+            navbar.classList.remove('navbar--scrolled');
         }
-      });
+        ticking = false;
+    }
 
-      if (isActive) {
-        closeFaqItem(faqItem);
-      } else {
-        openFaqItem(faqItem);
-      }
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateNavbarStyle);
+            ticking = true;
+        }
     });
-  });
+    updateNavbarStyle();
 }
 
 /* ============================================================
-   FUNCIÓN 4: VALIDACIÓN DEL FORMULARIO DE CITA VIP
+   2. MENÚ MÓVIL INTELIGENTE (Cierra al tocar fuera)
    ============================================================ */
-function initContactForm() {
-  const form = document.getElementById('appointment-form');
-  if (!form) return;
+function initMobileMenuVIP() {
+    const navbarToggle = document.getElementById('navbarToggle');
+    const navbarNav = document.getElementById('navbarNav');
+    const navbarLinks = document.querySelectorAll('.navbar__link');
 
-  function clearErrors() {
-    const errorFields = form.querySelectorAll('.contact__form-input--error');
-    errorFields.forEach(field => field.classList.remove('contact__form-input--error'));
+    if (!navbarToggle || !navbarNav) return;
 
-    const errorMessages = form.querySelectorAll('.contact__form-error');
-    errorMessages.forEach(msg => msg.remove());
-  }
+    // Abrir/Cerrar al tocar el botón hamburguesa
+    navbarToggle.addEventListener('click', (event) => {
+        event.stopPropagation(); // Evita que el clic choque con el cierre externo
+        navbarToggle.classList.toggle('navbar__toggle--active');
+        navbarNav.classList.toggle('navbar__nav--open');
+        
+        const isExpanded = navbarToggle.getAttribute('aria-expanded') === 'true';
+        navbarToggle.setAttribute('aria-expanded', !isExpanded);
+    });
 
-  function showFieldError(field, message) {
-    field.classList.add('contact__form-input--error');
-    const errorSpan = document.createElement('span');
-    errorSpan.className = 'contact__form-error';
-    errorSpan.textContent = message;
-    field.parentNode.appendChild(errorSpan);
-  }
+    // Cerrar al tocar fuera del menú
+    document.addEventListener('click', (event) => {
+        const isMenuOpen = navbarNav.classList.contains('navbar__nav--open');
+        const isClickInsideMenu = navbarNav.contains(event.target);
+        const isClickOnToggle = navbarToggle.contains(event.target);
 
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+        if (isMenuOpen && !isClickInsideMenu && !isClickOnToggle) {
+            navbarToggle.classList.remove('navbar__toggle--active');
+            navbarNav.classList.remove('navbar__nav--open');
+            navbarToggle.setAttribute('aria-expanded', 'false');
+        }
+    });
 
-  // Validación de teléfono: 12 dígitos numéricos
-  function isValidMexicanPhone(phone) {
-    const digitsOnly = phone.replace(/\D/g, '');
-    return /^\d{12}$/.test(digitsOnly);
-  }
-
-  function showSuccessMessage() {
-    const successDiv = document.createElement('div');
-    successDiv.className = 'contact__form-success';
-    successDiv.innerHTML = `
-      <div class="contact__form-success-icon">
-        <i class="fa-regular fa-circle-check"></i>
-      </div>
-      <h4 class="contact__form-success-title">Solicitud Recibida con Éxito</h4>
-      <p class="contact__form-success-text">
-        Un asesor de nuestro servicio VIP se comunicará con usted en menos de 15 minutos 
-        para confirmar su espacio. Gracias por elegir la excelencia de Clínica Dental Lumina.
-      </p>
-    `;
-    form.innerHTML = '';
-    form.appendChild(successDiv);
-    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    clearErrors();
-
-    const fullname = document.getElementById('fullname');
-    const phone = document.getElementById('phone');
-    const email = document.getElementById('email');
-    const service = document.getElementById('service');
-    const preferredDate = document.getElementById('preferred-date');
-
-    let isValid = true;
-
-    if (!fullname || fullname.value.trim() === '') {
-      showFieldError(fullname, 'El nombre completo es obligatorio.');
-      isValid = false;
-    }
-
-    if (!phone || phone.value.trim() === '') {
-      showFieldError(phone, 'El teléfono es obligatorio.');
-      isValid = false;
-    } else if (!isValidMexicanPhone(phone.value.trim())) {
-      showFieldError(phone, 'Ingrese un número de teléfono válido.');
-      isValid = false;
-    }
-
-    if (!email || email.value.trim() === '') {
-      showFieldError(email, 'El correo electrónico es obligatorio.');
-      isValid = false;
-    } else if (!isValidEmail(email.value.trim())) {
-      showFieldError(email, 'Ingrese un correo electrónico válido.');
-      isValid = false;
-    }
-
-    if (!service || service.value === '') {
-      showFieldError(service, 'Seleccione un servicio de interés.');
-      isValid = false;
-    }
-
-    if (!preferredDate || preferredDate.value.trim() === '') {
-      showFieldError(preferredDate, 'Seleccione una fecha para su cita.');
-      isValid = false;
-    }
-
-    if (isValid) {
-      showSuccessMessage();
-    }
-  });
-}
-
-/* ============================================================
-   FUNCIÓN 5: ACTUALIZACIÓN DEL AÑO ACTUAL EN EL FOOTER
-   ============================================================ */
-function initCurrentYear() {
-  const yearSpan = document.getElementById('current-year');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
-}
-
-/* ============================================================
-   FUNCIÓN 6: SCROLL SUAVE INTELIGENTE (Mejorado)
-   ============================================================ */
-function initSmoothScroll() {
-  // Caso A: Enlaces estándar que apuntan a un ID (ej: <a href="#appointment-form">)
-  const anchorLinks = document.querySelectorAll('a[href^="#"]');
-  anchorLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const targetId = link.getAttribute('href').substring(1);
-      if (!targetId) return;
-
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        e.preventDefault();
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
+    // Cerrar al tocar un enlace del menú
+    navbarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navbarToggle.classList.remove('navbar__toggle--active');
+            navbarNav.classList.remove('navbar__nav--open');
+            navbarToggle.setAttribute('aria-expanded', 'false');
         });
-      }
     });
-  });
-
-  // Caso B: Respaldo por si tus botones son etiquetas <button> o clases personalizadas
-  // Esto buscará cualquier botón que tenga la clase para agendar o un atributo de destino
-  const actionButtons = document.querySelectorAll('.btn-agendar, [data-target="appointment-form"]');
-  actionButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const targetElement = document.getElementById('appointment-form');
-      if (targetElement) {
-        e.preventDefault();
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }
-    });
-  });
 }
 
 /* ============================================================
-   FUNCIÓN 7: INICIALIZACIÓN DE LA GALERÍA VIP (PHOTOSWIPE)
+   3. FORMULARIO VIP (Validación, Envío Invisible y Modales)
    ============================================================ */
-function initPhotoSwipe() {
-  const lightbox = new PhotoSwipeLightbox({
-      gallery: '#mi-galeria',
-      children: 'a',
-      pswpModule: () => import('https://unpkg.com/photoswipe/dist/photoswipe.esm.js')
-  });
-  lightbox.init();
-}
-/* ==========================================================================
-/* ==========================================================================
-   VALIDACIÓN, ENVÍO INVISIBLE POR CORREO Y MODALES VIP
-   ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
+function initContactFormVIP() {
     const appointmentForm = document.getElementById('appointment-form');
-    
-    // Identificamos los dos modales
     const successModal = document.getElementById('success-modal');
     const warningModal = document.getElementById('warning-modal');
-
-    // Identificamos los botones de cerrar
     const closeSuccessBtn = document.getElementById('close-success-modal');
     const closeWarningBtn = document.getElementById('close-warning-modal');
-    
-    // Botón de enviar para cambiar su texto a "Enviando..."
     const submitBtn = appointmentForm ? appointmentForm.querySelector('button[type="submit"]') : null;
 
-    // Función rápida para cerrar modales
+    const clinicEmail = "gondresmk@gmail.com"; 
+
     const closeModal = (modal) => {
         if (modal) modal.classList.remove('is-active');
     };
 
-    // ==========================================
-    // ⚠️ PON AQUÍ EL CORREO DE LA CLÍNICA
-    // ==========================================
-    const clinicEmail = "gondresmk@gmail.com"; 
-
     if (appointmentForm) {
         appointmentForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Bloqueamos la recarga de la página
+            event.preventDefault(); // Bloquear recarga de página
 
             const requiredFields = appointmentForm.querySelectorAll('[required]');
             let hasEmptyFields = false;
 
-            // 1. Revisamos si falta algo
+            // Revisar campos vacíos
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     hasEmptyFields = true;
@@ -346,17 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (hasEmptyFields) {
-                // FALTAN DATOS: Mostramos cartel de advertencia
+                // Mostrar cartel de advertencia
                 if (warningModal) warningModal.classList.add('is-active');
             } else {
-                // TODO PERFECTO: Preparamos el envío invisible
-                
-                // Cambiamos el texto del botón para que el cliente sepa que está cargando
+                // Animación de botón cargando
                 const originalBtnText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando solicitud...';
                 submitBtn.disabled = true;
 
-                // Extraemos los datos
+                // Extraer datos
                 const name = document.getElementById('fullname').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const email = document.getElementById('email').value.trim();
@@ -367,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const messageVal = document.getElementById('message').value.trim();
                 const message = messageVal ? messageVal : 'Sin notas adicionales';
 
-                // 2. Enviamos los datos de forma invisible a Formsubmit mediante AJAX
+                // Envío por Formsubmit
                 fetch(`https://formsubmit.co/ajax/${clinicEmail}`, {
                     method: "POST",
                     headers: { 
@@ -375,29 +148,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        _subject: `💎 Nueva Solicitud de Cita VIP: ${name}`, // Título del correo
+                        _subject: `💎 Nueva Solicitud de Cita VIP: ${name}`,
                         Nombre: name,
                         Teléfono: phone,
                         Correo: email,
                         Servicio: service,
                         Fecha_Deseada: date,
                         Notas: message,
-                        _template: "table" // Formato bonito en el correo
+                        _template: "table"
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // 3. SE ENVIÓ CORRECTAMENTE
-                    // Restauramos el botón
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
-
-                    // Mostramos el cartel bonito de "Éxito" y limpiamos el formulario
                     if (successModal) successModal.classList.add('is-active');
                     appointmentForm.reset();
                 })
                 .catch(error => {
-                    // Si algo falla en la conexión de internet
                     console.log(error);
                     submitBtn.innerHTML = originalBtnText;
                     submitBtn.disabled = false;
@@ -407,9 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
-    // LÓGICA PARA CERRAR LOS CARTELES
-    // ==========================================
+    // Eventos para cerrar los modales
     if (closeSuccessBtn && successModal) {
         closeSuccessBtn.addEventListener('click', () => closeModal(successModal));
         successModal.addEventListener('click', (event) => {
@@ -423,48 +189,62 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.target === warningModal) closeModal(warningModal);
         });
     }
-});
-/* ==========================================================================
-   CONTROL DEL MENÚ HAMBURGUESA (MÓVIL) Y CLICS EXTERNOS
-   ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-    const navbarToggle = document.getElementById('navbarToggle');
-    const navbarNav = document.getElementById('navbarNav');
-    const navbarLinks = document.querySelectorAll('.navbar__link');
+}
 
-    if (navbarToggle && navbarNav) {
-        // 1. Abrir/Cerrar el menú al tocar el icono (Activa la "X" de tu CSS)
-        navbarToggle.addEventListener('click', (event) => {
-            event.stopPropagation(); // Evita que el clic se confunda con un clic fuera del menú
-            navbarToggle.classList.toggle('navbar__toggle--active');
-            navbarNav.classList.toggle('navbar__nav--open');
-            
-            // Mejora de accesibilidad para lectores de pantalla
-            const isExpanded = navbarToggle.getAttribute('aria-expanded') === 'true';
-            navbarToggle.setAttribute('aria-expanded', !isExpanded);
-        });
+/* ============================================================
+   4. AÑO ACTUAL (FOOTER)
+   ============================================================ */
+function initCurrentYear() {
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+}
 
-        // 2. Cerrar el menú al tocar FUERA de él
-        document.addEventListener('click', (event) => {
-            const isMenuOpen = navbarNav.classList.contains('navbar__nav--open');
-            const isClickInsideMenu = navbarNav.contains(event.target);
-            const isClickOnToggle = navbarToggle.contains(event.target);
+/* ============================================================
+   5. SCROLL SUAVE
+   ============================================================ */
+function initSmoothScroll() {
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href').substring(1);
+            if (!targetId) return;
 
-            // Si el menú está abierto, y el clic NO fue ni en el menú ni en el botón...
-            if (isMenuOpen && !isClickInsideMenu && !isClickOnToggle) {
-                navbarToggle.classList.remove('navbar__toggle--active');
-                navbarNav.classList.remove('navbar__nav--open');
-                navbarToggle.setAttribute('aria-expanded', 'false');
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
             }
         });
+    });
 
-        // 3. Cerrar el menú al tocar cualquier ENLACE (Para ir a una sección)
-        navbarLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navbarToggle.classList.remove('navbar__toggle--active');
-                navbarNav.classList.remove('navbar__nav--open');
-                navbarToggle.setAttribute('aria-expanded', 'false');
-            });
+    const actionButtons = document.querySelectorAll('.btn-agendar, [data-target="appointment-form"]');
+    actionButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetElement = document.getElementById('appointment-form');
+            if (targetElement) {
+                e.preventDefault();
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
         });
-    }
-});
+    });
+}
+
+/* ============================================================
+   6. GALERÍA VIP (PHOTOSWIPE)
+   ============================================================ */
+function initPhotoSwipe() {
+    const lightbox = new PhotoSwipeLightbox({
+        gallery: '#mi-galeria',
+        children: 'a',
+        pswpModule: () => import('https://unpkg.com/photoswipe/dist/photoswipe.esm.js')
+    });
+    lightbox.init();
+}
